@@ -1,0 +1,93 @@
+---
+title: "Repostulación"
+author: "Eddie Escobar"
+date: "1/24/2022"
+output: html_document
+---
+
+```{r echo=FALSE, message=FALSE, results='hide'}
+rm(list=ls())
+gc()
+```
+
+```{r echo=FALSE, message=FALSE, results='hide'}
+library(plyr)
+library(dplyr)
+library(tidyr)
+library(fastDummies)
+library(reshape2)
+library(corrplot)
+library(stargazer)
+library(stringr)
+library(ggplot2)
+library(rddtools)
+library(parallel)
+library(evd)  # \342\200\230~/R/x86_64-redhat-linux-gnu-library/3.5\342\200\231 (personal library in Hawk)
+library(magic)
+library(mvtnorm)
+library(LaplacesDemon)
+library(truncnorm)
+library(compiler)
+library(feather)
+library(magrittr)
+library(geosphere)
+#library(Hmisc)
+library(plyr)
+library(dplyr)
+library(tidyr)
+library(fastDummies)
+library(reshape2)
+library(corrplot)
+library(stargazer)
+library(stringr)
+library(ggplot2)
+library(stringi)
+library(stringr)
+```
+
+# ================================
+# Directories
+# ================================
+
+```{r}
+
+setwd("/Users/eddieescobar/Desktop/Cartillas/")
+
+```
+
+# ================================
+# Preprocesamiento para BBDD
+# ================================
+
+```{r}
+
+repos <- read.csv("/Users/eddieescobar/Desktop/Cartillas/Repostulacion adm 2021.csv", header=TRUE, sep=';')
+
+repos %<>% dplyr::rename(CODIGO_DEMRE = COD_CARRERAS)
+
+key<- read.csv("/Users/eddieescobar/Desktop/Cartillas/major_key.csv", header=TRUE, sep=';')
+
+key %<>% dplyr::rename(id = CODIGO_SIES)
+
+key <- key %>% dplyr::select(id, CODIGO_DEMRE)
+  
+program<- read.csv("/Users/eddieescobar/Desktop/Cartillas/program.csv", header=TRUE, sep=';')
+
+```
+
+# New Table Program
+
+```{r}
+
+oferta <- merge(key, program, by = "id", all  = TRUE)
+
+program_test <- merge(oferta, repos, by = "CODIGO_DEMRE", all  = TRUE)
+
+program_test <- program_test %>% dplyr::select(id, institution_id, campus_name, region_id, level_id, address, major_id, name, accredited, accredited_years, area_id, duration, duration_type, tuition, application_type, shift, entry_req, benefits, vacancies)
+  
+write.table(program_test, file = 'program_test.csv', sep=";", row.names = FALSE, quote = FALSE)
+
+```
+
+
+
