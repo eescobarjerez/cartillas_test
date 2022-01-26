@@ -63,7 +63,7 @@ setwd("/Users/eddieescobar/Desktop/Cartillas/")
 
 repos <- read.csv("/Users/eddieescobar/Desktop/Cartillas/Repostulacion adm 2021.csv", header=TRUE, sep=';')
 
-repos %<>% dplyr::rename(CODIGO_DEMRE = COD_CARRERAS)
+repos %<>% dplyr::rename(CODIGO_DEMRE = COD_CARRERAS, repostulacion = REPOSTULACION)
 
 key<- read.csv("/Users/eddieescobar/Desktop/Cartillas/major_key.csv", header=TRUE, sep=';')
 
@@ -83,12 +83,16 @@ oferta <- merge(key, program, by = "id", all  = TRUE)
 
 program_test <- merge(oferta, repos, by = "CODIGO_DEMRE", all  = TRUE)
 
-program_test <- program_test %>% dplyr::select(id, institution_id, campus_name, region_id, level_id, address, major_id, name, accredited, accredited_years, area_id, duration, duration_type, tuition, application_type, shift, entry_req, benefits, vacancies)
+program_test <- program_test %>% dplyr::select(id, institution_id, campus_name, region_id, level_id, address, major_id, name, accredited, accredited_years, area_id, duration, duration_type, tuition, application_type, shift, entry_req, benefits, vacancies, repostulacion)
   
+# replace 
+
+program_test %<>% mutate(repostulacion = ifelse(as.character(repostulacion) == 'SI', 1, 0))
+program_test <- program_test %>% filter(!is.na(program_test$id))
+
 write.table(program_test, file = 'program_test.csv', sep=";", row.names = FALSE, quote = FALSE)
 
-# replace 0 No
-# replace 1 Sí
+
 
 ```
 
