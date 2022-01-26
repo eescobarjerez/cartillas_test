@@ -87,6 +87,9 @@ program_test <- program_test %>% dplyr::select(id, institution_id, campus_name, 
   
 write.table(program_test, file = 'program_test.csv', sep=";", row.names = FALSE, quote = FALSE)
 
+# replace 0 No
+# replace 1 Sí
+
 ```
 
 
