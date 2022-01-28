@@ -61,7 +61,7 @@ setwd("/Users/eddieescobar/Desktop/Cartillas/")
 
 ```{r}
 
-repos <- read.csv("/Users/eddieescobar/Desktop/Cartillas/Repostulacion adm 2021.csv", header=TRUE, sep=';')
+repos <- read.csv("/Users/eddieescobar/Desktop/Cartillas/Repostulación 00 hrs 28-01-2022_UCH_UTA_sindup.csv", header=TRUE, sep=';')
 
 repos %<>% dplyr::rename(CODIGO_DEMRE = COD_CARRERAS, repostulacion = REPOSTULACION)
 
@@ -90,7 +90,7 @@ program_test <- program_test %>% dplyr::select(id, institution_id, campus_name, 
 program_test %<>% mutate(repostulacion = ifelse(as.character(repostulacion) == 'SI', 1, 0))
 program_test <- program_test %>% filter(!is.na(program_test$id))
 
-write.table(program_test, file = 'program_test.csv', sep=";", row.names = FALSE, quote = FALSE)
+write.table(program_test, file = 'program_new.csv', sep=";", row.names = FALSE, quote = FALSE)
 
 
 
